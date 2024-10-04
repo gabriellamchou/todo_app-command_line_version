@@ -1,5 +1,4 @@
 possible_orders = ["add", "edit", "complete", "show", "exit", "help"]
-todos = []
 
 print("Type 'help' to see list of possible orders")
 
@@ -7,8 +6,20 @@ while True:
     user_order = input("Enter an order: ").strip().lower()
     match user_order:
         case "add":
-            task = input("Enter a task: ")
+            # We ask user for input
+            task = input("Enter a task: ") + "\n"
+            # We read the file of todos
+            file = open("todos.txt", 'r')
+            # Store its content in a list
+            todos = file.readlines()
+            file.close()
+            # Add the user input to that list
             todos.append(task)
+            # Write the list on the file
+            file = open("todos.txt", 'w')
+            file.writelines(todos)
+            file.close()
+            print("Task added!")
         case "edit":
             old_task = input("Enter the number of the task you want to edit: ")
             old_task = int(old_task) - 1
