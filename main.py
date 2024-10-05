@@ -6,57 +6,45 @@ while True:
     user_order = input("Enter an order: ").strip().lower()
     match user_order:
         case "add":
-            # We ask user for input
+            # Prompt user to enter new task
             task = input("Enter a task: ") + "\n"
-            # We read the file of todos
-            file = open("todos.txt", 'r')
-            # Store its content in a list
-            todos = file.readlines()
-            file.close()
-            # Add the user input to that list
+            # Store items in todos.txt in a variable
+            with open("todos.txt", 'r') as file:
+                todos = file.readlines()
+            # Store new task in todos variable
             todos.append(task)
-            # Write the list on the file
-            file = open("todos.txt", 'w')
-            file.writelines(todos)
-            file.close()
-
+            # Overwrite todos.txt with new task included
+            with open("todos.txt", 'w') as file:
+                file.writelines(todos)
             print("Task added!")
         case "edit":
             old_task = input("Enter the number of the task you want to edit: ")
             old_task = int(old_task) - 1
 
-            file = open("todos.txt", 'r')
-            todos = file.readlines()
-            file.close()
+            with open("todos.txt", 'r') as file:
+                todos = file.readlines()
+            todos[old_task] = input("Enter the new task: ") + '\n'
 
-            todos[old_task] = input("Enter the new task: ")
-
-            file = open("todos.txt", 'w')
-            file.writelines(todos)
-            file.close()
-
+            with open("todos.txt", 'w') as file:
+                file.writelines(todos)
             print("The task has been edited successfully!")
         case "complete":
             completed_idx = input("Enter the number of the completed task: ")
             completed_idx = int(completed_idx) - 1
 
-            file = open("todos.txt", 'r')
-            todos = file.readlines()
-            file.close()
-
+            with open("todos.txt", 'r') as file:
+                todos = file.readlines()
             completed_todo = todos.pop(completed_idx)
 
-            file = open("todos.txt", 'w')
-            file.writelines(todos)
-            file.close()
-
+            with open("todos.txt", 'w') as file:
+                file.writelines(todos)
             print("The task has been completed!")
         case "show":
-            file = open("todos.txt", 'r')
-            todos = file.readlines()
-            file.close()
+            with open("todos.txt", 'r') as file:
+                todos = file.readlines()
 
             for index, item in enumerate(todos):
+                item = item.strip('\n')
                 print(f"{index + 1}. {item.capitalize()}")
         case "exit":
             break
