@@ -1,3 +1,6 @@
-run
+exit
 Eat
 gardening
+sleep
+live
+play
