@@ -1,6 +1,3 @@
-do
-make
 run
-Live
 Eat
-show
+gardening
