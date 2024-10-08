@@ -2,5 +2,6 @@ exit
 Eat
 gardening
 sleep
-live
 play
+play Street Fighter
+learn

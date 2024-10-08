@@ -1,3 +1,26 @@
+def get_todos(filepath='todos.txt'):
+    """
+    Read the text file and return every line as an item inside a list object.
+    :param filepath: File to read
+    :return: List of to-dos
+    """
+    with open(filepath, 'r') as file:
+        todos_local = file.readlines()
+    return todos_local
+
+
+def write_todos(todos_arg, filepath='todos.txt'):
+    """
+    Write or overwrite the text file in the path, creating a line for each
+    element of the list.
+    :param todos_arg: List of to-dos
+    :param filepath: File to write/overwrite
+    :return: None
+    """
+    with open(filepath, 'w') as file:
+        file.writelines(todos_arg)
+
+
 possible_orders = ["add [task]",
                    "edit [task number]",
                    "complete [task number]",
@@ -13,28 +36,24 @@ while True:
         # Use list slicing to get the new task
         task = user_order[4:] + '\n'
         # Store items in todos.txt in a variable
-        with open("todos.txt", 'r') as file:
-            todos = file.readlines()
+        todos = get_todos()
         # Store new task in todos variable
         todos.append(task)
         # Overwrite todos.txt with new task included
-        with open("todos.txt", 'w') as file:
-            file.writelines(todos)
+        write_todos(todos)
         print("Task added!")
     elif user_order.startswith("edit "):
         try:
             old_task = user_order[5:]
             old_task = int(old_task) - 1
 
-            with open("todos.txt", 'r') as file:
-                todos = file.readlines()
+            todos = get_todos()
             if todos[old_task] not in todos:
                 print("The number specified does not correspond with any task")
                 continue
             todos[old_task] = input("Enter the new task: ") + '\n'
 
-            with open("todos.txt", 'w') as file:
-                file.writelines(todos)
+            write_todos(todos)
             print("The task has been edited successfully!")
         except ValueError:
             print("Invalid command. "
@@ -45,12 +64,10 @@ while True:
             completed_idx = user_order[9:]
             completed_idx = int(completed_idx) - 1
 
-            with open("todos.txt", 'r') as file:
-                todos = file.readlines()
+            todos = get_todos()
             completed_todo = todos.pop(completed_idx)
 
-            with open("todos.txt", 'w') as file:
-                file.writelines(todos)
+            write_todos(todos)
             print("The task has been completed!")
         except ValueError:
             print("Invalid command. "
@@ -61,8 +78,7 @@ while True:
             print("The number specified does not correspond with any task")
             continue
     elif user_order.startswith("show"):
-        with open("todos.txt", 'r') as file:
-            todos = file.readlines()
+        todos = get_todos()
 
         for index, item in enumerate(todos):
             item = item.strip('\n')
